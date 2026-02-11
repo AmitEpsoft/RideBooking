@@ -1,0 +1,331 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ride Booking API",
+        "description": "Laravel Ride Booking APIs for Passenger and Driver",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Local Server"
+        }
+    ],
+    "paths": {
+        "/api/driver/location": {
+            "post": {
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Update driver location",
+                "operationId": "a66c8be16e330b50c5c9f600505eb8c6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "driver_id",
+                                    "lat",
+                                    "lng"
+                                ],
+                                "properties": {
+                                    "driver_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "lat": {
+                                        "type": "number",
+                                        "example": 26.8467
+                                    },
+                                    "lng": {
+                                        "type": "number",
+                                        "example": 80.9462
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Location updated"
+                    }
+                }
+            }
+        },
+        "/api/driver/rides/nearby": {
+            "get": {
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Fetch nearby pending rides",
+                "operationId": "9b5c7d0eb23376f8500641d8364ef943",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "radius_km",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nearby rides fetched"
+                    }
+                }
+            }
+        },
+        "/api/driver/rides/{ride}/request": {
+            "post": {
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Driver requests/claims a ride",
+                "operationId": "063675c08f1a956d26df93b483e96873",
+                "parameters": [
+                    {
+                        "name": "ride",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "driver_id"
+                                ],
+                                "properties": {
+                                    "driver_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ride requested"
+                    }
+                }
+            }
+        },
+        "/api/driver/rides/{ride}/complete": {
+            "post": {
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Driver marks ride as completed",
+                "operationId": "7935f761c0c70e198d028935ce8c76c5",
+                "parameters": [
+                    {
+                        "name": "ride",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "driver_id"
+                                ],
+                                "properties": {
+                                    "driver_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Driver completed"
+                    }
+                }
+            }
+        },
+        "/api/passenger/rides": {
+            "post": {
+                "tags": [
+                    "Passenger"
+                ],
+                "summary": "Create Ride Request",
+                "operationId": "0d22b200d38a5ac71443b787816d083e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "passenger_id",
+                                    "pickup_lat",
+                                    "pickup_lng",
+                                    "destination_lat",
+                                    "destination_lng"
+                                ],
+                                "properties": {
+                                    "passenger_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "pickup_lat": {
+                                        "type": "number",
+                                        "example": 26.8467
+                                    },
+                                    "pickup_lng": {
+                                        "type": "number",
+                                        "example": 80.9462
+                                    },
+                                    "destination_lat": {
+                                        "type": "number",
+                                        "example": 26.9124
+                                    },
+                                    "destination_lng": {
+                                        "type": "number",
+                                        "example": 75.7873
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ride created"
+                    }
+                }
+            }
+        },
+        "/api/passenger/rides/{ride}/approve-driver": {
+            "post": {
+                "tags": [
+                    "Passenger"
+                ],
+                "summary": "Approve driver for a ride",
+                "operationId": "3b434a122458daab51d544b5d432bc54",
+                "parameters": [
+                    {
+                        "name": "ride",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "passenger_id",
+                                    "driver_id"
+                                ],
+                                "properties": {
+                                    "passenger_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "driver_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Driver approved"
+                    }
+                }
+            }
+        },
+        "/api/passenger/rides/{ride}/complete": {
+            "post": {
+                "tags": [
+                    "Passenger"
+                ],
+                "summary": "Passenger marks ride as completed",
+                "operationId": "b621b3f61f0fa6accbfd232fb9154424",
+                "parameters": [
+                    {
+                        "name": "ride",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "passenger_id"
+                                ],
+                                "properties": {
+                                    "passenger_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Passenger completed"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Driver",
+            "description": "Driver"
+        },
+        {
+            "name": "Passenger",
+            "description": "Passenger"
+        }
+    ]
+}
